@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unlock Your Special Gift</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'League Spartan', sans-serif;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      border: 4px solid #ff1493;
+      border-radius: 20px;
+      padding: 5px 20px 20px;
+      text-align: center;
+      max-width: 360px;
+      width: 90%;
+      outline-offset: 4px;
+      box-sizing: border-box;
+    }
+
+    .container:focus {
+      outline: 3px solid #ff1493;
+    }
+
+    .heart {
+      font-size: 100px;
+      margin-top: 20px;
+      margin-bottom: 0;
+      color: #ff1493;
+      line-height: 1;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #ff1493;
+      margin: 10px 0 20px;
+    }
+
+    .input-display {
+      font-size: 24px;
+      color: #ff1493;
+      letter-spacing: 10px;
+      margin-bottom: 10px;
+    }
+
+    .error-message {
+      color: #ff1493;
+      font-weight: bold;
+      font-size: 14px;
+      height: 18px;
+      margin-bottom: 10px;
+      aria-live: polite;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      column-gap: 8px;
+      row-gap: 8px;
+      justify-content: center;
+    }
+
+    .keypad button {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff1493;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s;
+      text-shadow: 0 0 6px white, 0 0 10px white;
+    }
+
+    .keypad button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" tabindex="0">
+    <div class="heart">❤</div>
+    <h2>Unlock Your Special Gift</h2>
+    <div class="input-display" id="display">____</div>
+    <div class="error-message" id="error" aria-live="polite"></div>
+    <div class="keypad">
+      <button id="btn1">1</button>
+      <button id="btn2">2</button>
+      <button id="btn3">3</button>
+      <button id="btn4">4</button>
+      <button id="btn5">5</button>
+      <button id="btn6">6</button>
+      <button id="btn7">7</button>
+      <button id="btn8">8</button>
+      <button id="btn9">9</button>
+      <div></div>
+      <button id="btn0">0</button>
+    </div>
+  </div>
+
+  <script>
+    let input = "";
+    const passcode = "0519";
+
+    function press(num) {
+      if (input.length < 4) {
+        input += num;
+        updateDisplay();
+        clearError();
+        if (input.length === 4) checkCode();
+      }
+    }
+
+    function updateDisplay() {
+      document.getElementById("display").innerText = input.padEnd(4, "_");
+    }
+
+    function clearError() {
+      document.getElementById("error").innerText = "";
+    }
+
+    function showError(msg) {
+      document.getElementById("error").innerText = msg;
+    }
+
+    function checkCode() {
+      if (input === passcode) {
+        window.location.href = "https://itscyrelportfolio.my.canva.site/happy-anniversary";
+      } else {
+        showError("Incorrect passcode. Try again.");
+        input = "";
+        updateDisplay();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i <= 9; i++) {
+        const btn = document.getElementById(`btn${i}`);
+        if (btn) {
+          btn.addEventListener('click', () => press(String(i)));
+        }
+      }
+
+      document.querySelector('.container').addEventListener('keydown', e => {
+        if (e.key >= '0' && e.key <= '9') press(e.key);
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+          input = input.slice(0, -1);
+          updateDisplay();
+          clearError();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
